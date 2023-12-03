@@ -11,18 +11,6 @@ messages = [{"role": "system", "content": "You are a helpful assistant."}]
 assistant = client.beta.assistants.retrieve(settings.OPENAI_ASSISTANT_ID)
 thread = client.beta.threads.create()
 
-def clean_string2(input_string):
-    #return re.sub(r'\&#8203;``【oaicite:1】``&#8203;', '', input_string)
-    return re.sub(r'\【.*?】]', '', input_string)
-
-def clean_string3(input_string):
-    pattern = re.compile(r'†source', re.IGNORECASE)
-    result = re.sub(pattern, '', input_string)
-    # pattern = re.compile(r'&#8203;``【oaicite:0】``&#8203;', re.IGNORECASE)
-    # result = re.sub(pattern, '', result)
-
-    return result.strip()
-#【1】.
 def clean_string(input_string):
     result = ""
     inside_parentheses = 0
@@ -57,7 +45,7 @@ def ask_assistant(user_input):
     thread_id=thread.id,
     assistant_id=assistant.id,
     )
-    time.sleep(3)
+    time.sleep(4)
     run = client.beta.threads.runs.retrieve(
     thread_id=thread.id,
     run_id=run.id
@@ -82,5 +70,7 @@ def chatbot(request):
     if request.method == 'POST':
         user_input = request.POST.get('message')
         assistant_output = ask_assistant(user_input)
+        #assistant_output = "DEBUG"
+        #assistant_output = user_input
         return JsonResponse({'message':user_input, 'response': assistant_output})
     return render(request, 'chatbot.html')
