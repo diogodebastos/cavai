@@ -1,18 +1,46 @@
 {% extends 'base.html' %}
 
 {% block styles %}
+<link href="https://fonts.googleapis.com/css2?family=Signika:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
     body, html {
       height: 100%;
+      background-color: #D9FFD8; /*f1f0f0*/
+      font-family: 'Signika' ,sans-serif; /* Replace with your desired font */
     }
-
+    
+    .chat-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 5%;
+      border-color: #7CF178;
+      border-radius: 10px;
+    }
+    .flex-grow-1 {
+      flex-grow: 1;
+      height: 90%;
+      /*
+      border-color: #7CF178;
+      border-bottom: none;
+      */
+      border: none;
+    }
     .messages-box {
-      flex: 1;
       overflow-y: auto;
+      max-height: 100%; 
+      background-color: #28044A;
+      color: #FEE6FF;
+      /*
+      border-radius: 10px;
+      padding: 15px;
+      */
     }
 
     .messages-list {
       padding-left: 0;
+      border: none;
     }
 
     .message {
@@ -21,53 +49,127 @@
     }
 
     .message-text {
-      padding: 10px;
-      border-radius: 5px;
+      padding: 0px;
+      border-radius: 0px;
     }
 
     .sent {
-      background-color: #dcf8c6;
+      background-color: #28044A;
       align-self: flex-end;
+      color: #7CF178;
     }
 
     .received {
-      background-color: #f1f0f0;
+      background-color: #28044A;
       align-self: flex-start;
+      color: #FEE6FF;
     }
 
     .message-form {
       display: flex;
-      position: fixed;
+      position: column;
       bottom: 0;
       left: 0;
       right: 0;
       padding: 10px;
-      background-color: #f8f9fa;
+      background-color: #28044A;
+    }
+
+    .input-group {
+      border: none; /* Add this line */
     }
 
     .message-input {
       flex: 1;
-      border-radius: 0;
-      border-right: none;
+      border: none;
+      background-color: #FEE6FF; /* Replace with your desired color */
+      color: #28044A;
+    }
+
+    .message-input:focus {
+      background-color: #FEE6FF; /* Replace with your desired color */
+      color: #28044A;
+      border: none;
     }
 
     .btn-send {
       border-radius: 0;
+      background-color: #7CF178;
+      color: #28044A;
     }
 
-    .chat-container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+    .btn-send:hover {
+      background-color: #28044A;
+      color: #FEE6FF;
     }
+
+    .card-header {
+      background-color: #FEE6FF; /*8A2BE2*/
+      color: #28044A;
+      border-color: #7CF178;
+      border-width: 10px;
+    }
+
+    /*
+    .message-sender::before {
+      content: "CV";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      color: #fff;
+      margin-right: 5px;
+      text-align: center;
+      line-height: 20px;
+      font-size: 10px;
+    }
+    */
+    .message-content-AI {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+    }
+    
+    .message-content-AI::before {
+      content: "CV";
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      background-color: #FEE6FF;
+      color: #28044A;
+      margin-right: 5px;
+      text-align: center;
+      line-height: 15px;
+      font-size: 10px; 
+    }
+    
+    .message-content-USER {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+    }
+    
+    .message-content-USER::before {
+      content: "US";
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      background-color: #7CF178;
+      color: #28044A;
+      margin-right: 5px;
+      text-align: center;
+      line-height: 15px;
+      font-size: 10px; 
+    }
+    
   </style>
 {% endblock %}
 
 
 {% block content %}
-<div class="chat-container">
+<div class="chat-container id="chatContainer"">
   <div class="card flex-grow-1">
-    <div class="card-header bg-primary text-white">Diogo's CV</div>
+    <div class="card-header">Talk with Diogo's CV</div>
     <div class="card-body messages-box">
       
       <ul class="list-unstyled messages-list">
@@ -78,33 +180,47 @@
               <b></b>
             </div>
             <div class="message-content">
-              <p>Why should I hire Diogo?</p>
-              <p>What was his PhD about?</p>
-              <p>⌘c ⌘v your job requirements</p>
+              <p><b>example questions:</b></p>
+              <p>Why should I hire Diogo?<br>
+              What was Diogo's PhD about?<br>
+              ⌘c ⌘v your job requirements</p>
             </div>
           </div>
         </li>
       </ul>
       
     </div>
-    <br><br>
-    <br><br>
-    <br><br>
   </div>
   <form class="message-form">
     {%csrf_token%}
     <div class="input-group">
       <input type="text" class="form-control message-input" placeholder="Type your message...">
       <div class="input-group-append">
-        <button type="submit" class="btn btn-primary btn-send">Send</button>
+        <button type="submit" class="btn btn-send">Send</button>
       </div>
     </div>
   </form>
 </div>
 <script>
+  function typeMessage(element, message) {
+    let index = 0;
+
+    function type() {
+      if (index < message.length) {
+        element.innerHTML += message.charAt(index);
+        index++;
+        setTimeout(type, 5); // Adjust the delay between letters if needed
+        element.scrollTop = element.scrollHeight; // Auto-scroll
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+      }
+    }
+    type();
+  }
+
   const messagesList = document.querySelector('.messages-list');
   const messageForm = document.querySelector('.message-form');
   const messageInput = document.querySelector('.message-input');
+  const messagesBox = document.querySelector('.messages-box');
 
   messageForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -119,14 +235,19 @@
     messageItem.innerHTML = `
         <div class="message-text">
             <div class="message-sender">
-                <b>User</b>
+                <b></b>
             </div>
-            <div class="message-content">
-                ${message}
+            <div class="message-content-USER">
+              ${message}
             </div>
         </div>`;
     messagesList.appendChild(messageItem);
+    messagesBox.scrollTop = messagesBox.scrollHeight;
 
+    /*
+    const userMessageContent = messageItem.querySelector('.message-content-USER');
+    typeMessage(userMessageContent, message);
+    */
     messageInput.value = '';
 
     fetch('', {
@@ -145,14 +266,17 @@
         messageItem.innerHTML = `
         <div class="message-text">
             <div class="message-sender">
-              <b>Diogo's AI</b>
+              <b></b>
             </div>
-            <div class="message-content">
-                ${response}
+            <div class="message-content-AI">
             </div>
         </div>
           `;
         messagesList.appendChild(messageItem);
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+
+        const aiMessageContent = messageItem.querySelector('.message-content-AI');
+        typeMessage(aiMessageContent, response);
       });
   });
 
