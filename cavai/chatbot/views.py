@@ -45,11 +45,17 @@ def ask_assistant(user_input):
     thread_id=thread.id,
     assistant_id=assistant.id,
     )
-    time.sleep(4)
-    run = client.beta.threads.runs.retrieve(
-    thread_id=thread.id,
-    run_id=run.id
-    )
+    while True:
+        run_status = client.beta.threads.runs.retrieve(
+            thread_id=thread.id,
+            run_id=run.id
+        ).status
+
+        if run_status == "completed":
+            break
+
+        time.sleep(1)  
+        
     messages = client.beta.threads.messages.list(
     thread_id=thread.id
     )
