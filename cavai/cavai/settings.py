@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-fdifr)azt$op$hmoktg87$^n6ve)cyg*ga^sefmu%cfp+9l7q@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -126,4 +126,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 OPENAI_ASSISTANT_ID = os.environ.get('OPENAI_ASSISTANT_ID')
-#OPENAI_ASSISTANT_ID = 'asst_TFzaniUrisvvgh6shdp96iiW'
