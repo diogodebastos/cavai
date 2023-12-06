@@ -215,7 +215,7 @@
       if (index < message.length) {
         element.innerHTML += message.charAt(index);
         index++;
-        setTimeout(type, 10); // Adjust the delay between letters if needed
+        setTimeout(type, 5); // Adjust the delay between letters if needed
         element.scrollTop = element.scrollHeight; // Auto-scroll
         messagesBox.scrollTop = messagesBox.scrollHeight;
       }
