@@ -215,7 +215,7 @@
       if (index < message.length) {
         element.innerHTML += message.charAt(index);
         index++;
-        setTimeout(type, 5); // Adjust the delay between letters if needed
+        setTimeout(type, 10); // Adjust the delay between letters if needed
         element.scrollTop = element.scrollHeight; // Auto-scroll
         messagesBox.scrollTop = messagesBox.scrollHeight;
       }
@@ -244,16 +244,15 @@
                 <b></b>
             </div>
             <div class="message-content-USER">
-              ${message}
             </div>
         </div>`;
     messagesList.appendChild(messageItem);
     messagesBox.scrollTop = messagesBox.scrollHeight;
 
-    /*
+    
     const userMessageContent = messageItem.querySelector('.message-content-USER');
     typeMessage(userMessageContent, message);
-    */
+    
     messageInput.value = '';
 
     fetch('', {
@@ -285,6 +284,11 @@
         typeMessage(aiMessageContent, response);
       });
   });
-
+  window.addEventListener('load', () => {
+  const initialMessage = "In one sentence, summarise Diogo's experience for me.";
+  messageInput.value = initialMessage;
+  messageForm.dispatchEvent(new Event('submit'));
+  typeMessage(messageInput, initialMessage);
+});
 </script>
 {% endblock %}
