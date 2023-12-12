@@ -223,6 +223,22 @@
     type();
   }
 
+  function convertLinksToHTML(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function (url) {
+    return `<a href="${url}" target="_blank">${url}</a>`;
+  });
+  }
+
+  function extractLinks(text) {
+  const urlRegex = /(https?:\/\/[^\s)]+)/g;
+  const matches = text.match(urlRegex);
+  if (matches && matches.length > 0) {
+    return matches[0];
+  }
+    return '';
+  }
+
   const messagesList = document.querySelector('.messages-list');
   const messageForm = document.querySelector('.message-form');
   const messageInput = document.querySelector('.message-input');
@@ -281,7 +297,18 @@
         messagesBox.scrollTop = messagesBox.scrollHeight;
 
         const aiMessageContent = messageItem.querySelector('.message-content-AI');
-        typeMessage(aiMessageContent, response);
+        const link = extractLinks(response);
+        if (link) {
+          aiMessageContent.innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+        } else {
+          typeMessage(aiMessageContent, response);
+        }
+        // if (response.includes('http://') || response.includes('https://')) {
+        //   const responseWithLinks = convertLinksToHTML(response);
+        //   aiMessageContent.innerHTML = responseWithLinks;
+        // } else {
+        //   typeMessage(aiMessageContent, response);
+        // }
       });
   });
   window.addEventListener('load', () => {
