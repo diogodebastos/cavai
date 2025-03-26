@@ -75,8 +75,8 @@ def ask_assistant(user_input):
 def chatbot(request):
     if request.method == 'POST':
         user_input = request.POST.get('message')
+        # comment out the following line for debugging
         assistant_output = ask_assistant(user_input)
-        #assistant_output = "DEBUG"
         #assistant_output = user_input
         return JsonResponse({'message':user_input, 'response': assistant_output})
     return render(request, 'chatbot.html')
