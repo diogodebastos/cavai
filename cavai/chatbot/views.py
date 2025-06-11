@@ -4,12 +4,15 @@ from django.http import JsonResponse
 from openai import OpenAI
 import time
 import re
+import os
 
 # client = OpenAI(api_key=settings.OPENAI_API_KEY)
-# messages = [{"role": "system", "content": "You are a helpful assistant."}]
+client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+messages = [{"role": "system", "content": "You are a helpful assistant."}]
 
 # assistant = client.beta.assistants.retrieve(settings.OPENAI_ASSISTANT_ID)
-# thread = client.beta.threads.create()
+assistant = client.beta.assistants.retrieve(os.environ.get('OPENAI_ASSISTANT_ID'))
+thread = client.beta.threads.create()
 
 def clean_string(input_string):
     result = ""
@@ -76,7 +79,7 @@ def chatbot(request):
     if request.method == 'POST':
         user_input = request.POST.get('message')
         # comment out the following line for debugging
-        # assistant_output = ask_assistant(user_input)
-        assistant_output = user_input
+        assistant_output = ask_assistant(user_input)
+        # assistant_output = user_input
         return JsonResponse({'message':user_input, 'response': assistant_output})
     return render(request, 'chatbot.html')
