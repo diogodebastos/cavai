@@ -7,6 +7,17 @@ import re
 import os
 
 # client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
+try:
+    os.environ['OPENAI_API_KEY']
+except KeyError:
+    raise KeyError("Please set the OPENAI_API_KEY environment variable.")
+
+try:
+    os.environ['OPENAI_ASSISTANT_ID']
+except KeyError:
+    raise KeyError("Please set the OPENAI_ASSISTANT_ID environment variable.")
+
 client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
 messages = [{"role": "system", "content": "You are a helpful assistant."}]
 
