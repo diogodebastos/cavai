@@ -11,7 +11,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-    /* ---------- GRID LAYOUT ---------- */
+    /* ---------------------------------------------------
+       GLOBAL  ─ brand colours, gradient & noise overlay
+    --------------------------------------------------- */
+    :root{
+        --purple-gradient:            linear-gradient(90deg, #9179eb 0%, #6c38fa 100%);
+        --purple-gradient-inverse:    linear-gradient(180deg, #9179eb 0%, #6c38fa 100%);
+        --chat-background-color:      #8A2BE2;
+        --ai-color:                   #A6FFA3;
+        --user-color:                 #FFF7F6;
+        --background-color:           #28044A;
+        --darkest-color:              #6c38fa;
+    }
+
+    html, body{
+        height:100%;
+        margin:0;
+        background:var(--purple-gradient);
+        font-family:'Signika', sans-serif;
+        color:#FFF;
+    }
+
+    /* Noise overlay for the gradient background */
+    body::before{
+        content:"";
+        position:fixed;
+        top:0; left:0;
+        width:100%; height:100%;
+        pointer-events:none;
+        background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noisy' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.50' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noisy)' opacity='0.15'/%3E%3C/svg%3E");
+        opacity:.3;
+        z-index:1;
+    }
+
+    /* ---------------------------------------------------
+       LAYOUT  ─ responsive grid of preview cards
+    --------------------------------------------------- */
     .vibe-coding-grid{
         display:grid;
         gap:1.5rem;
@@ -19,9 +54,13 @@
         margin:2rem auto;
         width:90%;
         max-width:1600px;
+        position:relative;           /* keep content above noise overlay */
+        z-index:2;
     }
 
-    /* ---------- CARD & PREVIEW BOX ---------- */
+    /* ---------------------------------------------------
+       COMPONENT  ─ preview card
+    --------------------------------------------------- */
     .preview-card{
         display:flex;
         flex-direction:column;
@@ -32,69 +71,42 @@
         overflow:hidden;
     }
 
-    /* Headings */
+    /* Card heading */
     .preview-card h3{
         margin:0;
         padding:.75rem 1rem;
         font-size:1.1rem;
         text-align:center;
-        background:#A6FFA3;               /* new background */
-        color:#8A2BE2;                    /* new font color */
-        font-family:'Signika',sans-serif; /* new font family */
-    }
-    .dark-theme .preview-card h3{        /* keep same look in dark mode */
         background:#A6FFA3;
         color:#8A2BE2;
+        font-family:'Signika', sans-serif;
     }
 
-    /* ---------- 16 : 9 PREVIEW FRAME ---------- */
+    /* ---------------------------------------------------
+       ASPECT-RATIO preview frame
+    --------------------------------------------------- */
     .preview-frame{
         position:relative;
         width:100%;
-        aspect-ratio:9/10;
+        aspect-ratio:9/10;           /* Graceful fallback below */
     }
     @supports not (aspect-ratio:9/10){
         .preview-frame{padding-top:56.25%;}
-        .preview-frame>*{position:absolute;top:0;left:0;width:100%;height:100%;}
+        .preview-frame>*{position:absolute;inset:0;}
     }
-    .preview-frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+    .preview-frame iframe{position:absolute;inset:0;border:0;width:100%;height:100%;}
 
-    /* ---------- PLACEHOLDER ---------- */
+    /* Placeholder for “coming soon” cards */
     .preview-frame.placeholder{
         display:flex;
         align-items:center;
         justify-content:center;
         background:#e9ecef;
     }
-    .dark-theme .preview-frame.placeholder{background:#3e2c6d;}
-
-    .placeholder-emoji{
-        font-size:3.5rem;
-        line-height:1;
-    }
-
-    /* ---------- THEME TOGGLE ---------- */
-    body{
-        background:#f8f9fa;
-        color:#28044A;
-        transition:background-color .3s ease,color .3s ease;
-        font-family:'Signika',sans-serif;   /* optional: use Signika for body too */
-    }
-    .dark-theme{background:#28044A;color:#f8f9fa;}
-
-    .theme-toggle-button{
-        position:fixed;
-        top:10px;
-        right:10px;
-        width:40px;height:40px;
-        border-radius:50%;
-        color:#A6FFA3;
-        background:#9179eb;
-        border:none;
-    }
-    .theme-toggle-button:hover{background:#6c38fa;cursor:pointer;}
+    .placeholder-emoji{font-size:3.5rem;line-height:1;}
     </style>
 </head>
+
 <body>
 
 <div class="vibe-coding-grid">
@@ -113,7 +125,7 @@
 
     <!-- Preview 2 -->
     <div class="preview-card">
-        <h3><i>coming soon...</i></h3>
+        <h3><i>coming soon…</i></h3>
         <div class="preview-frame placeholder">
             <span class="placeholder-emoji">🚧</span>
         </div>
@@ -121,23 +133,5 @@
 
 </div>
 
-<button class="btn btn-secondary theme-toggle-button" id="theme-toggle" aria-label="Switch to Dark Mode">
-    &#9728;&#65038;
-</button>
-
-<script>
-/* Theme switcher */
-document.getElementById('theme-toggle').addEventListener('click', (event) => {
-    document.body.classList.toggle('dark-theme');
-    const btn = event.currentTarget;
-    if (document.body.classList.contains('dark-theme')) {
-        btn.innerHTML='&#9728;&#65038;';            // sun
-        btn.setAttribute('aria-label','Switch to Light Mode');
-    } else {
-        btn.innerHTML='&#9728;&#65038;';                    // moon
-        btn.setAttribute('aria-label','Switch to Dark Mode');
-    }
-});
-</script>
 </body>
 </html>
