@@ -105,3 +105,6 @@ def cv_view(request):
         cv_html = "<p>CV file not found.</p>"
 
     return render(request, 'cv.html', {'cv_html': cv_html})
+
+def vibe_coding_view(request):
+    return render(request, 'vibe_coding.html')
