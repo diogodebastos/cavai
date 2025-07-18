@@ -5,6 +5,7 @@ from openai import OpenAI
 import time
 import re
 import os
+import markdown
 
 # client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
@@ -94,3 +95,13 @@ def chatbot(request):
         # assistant_output = user_input
         return JsonResponse({'message':user_input, 'response': assistant_output})
     return render(request, 'chatbot.html')
+
+def cv_view(request):
+    try:
+        with open(os.path.join(settings.BASE_DIR, 'templates/cv.md'), 'r') as f:
+            cv_content = f.read()
+        cv_html = markdown.markdown(cv_content)
+    except FileNotFoundError:
+        cv_html = "<p>CV file not found.</p>"
+
+    return render(request, 'cv.html', {'cv_html': cv_html})
