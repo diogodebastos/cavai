@@ -1,3 +1,4 @@
 openai==1.35.15
 Django==4.2.7
 httpx==0.25.2
+markdown==3.8.2
