@@ -205,7 +205,10 @@
 {% block content %}
 <div class="chat-container id="chatContainer"">
   <div class="card flex-grow-1">
-    <div class="card-header">Talk with Diogo's CV 👇️ or read it <a href="/cv">here</a></div>
+    <div class="card-header">
+      Chat with <a href="/cv" style="font-weight: bold; color: inherit;">Diogo's CV</a> 👇️
+      <a href="/vibe-coding" style="color: inherit; float: right;">👉 <i>vibe-coding</i> projects</a>
+    </div>
     <div class="card-body messages-box">
       
       <ul class="list-unstyled messages-list">
@@ -236,7 +239,12 @@
       </div>
     </div>
   </form>
+  <div style="text-align: center; margin-top: 20px; color: #A6FFA3;">
+    Built by <a href="https://www.linkedin.com/in/diogodebastos/" target="_blank" style="color: #A6FFA3; text-decoration: underline;">db</a>
+  </div>
 </div>
+
+
 <script>
   function typeMessage(element, message) {
     let index = 0;
