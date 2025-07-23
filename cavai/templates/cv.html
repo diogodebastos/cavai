@@ -4,15 +4,19 @@
 
 {% block content %}
 <style>
+    /* ---------- page + theme styles ---------- */
     body {
         background-color: #FFF7F6;
         color: black;
         transition: background-color 0.3s ease, color 0.3s ease;
+        margin: 0;              /* remove default margin so bar hugs the very top */
     }
     .dark-theme {
         background-color: black;
         color: #FFF7F6;
     }
+
+    /* ---------- theme‑toggle button ---------- */
     .theme-toggle-button {
         position: absolute;
         top: 10px;
@@ -31,25 +35,71 @@
         border: none;
         outline: none !important;
     }
+
+    /* ---------- scroll‑progress bar ---------- */
+    /* thin, subtle track */
+    #scroll-progress-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;                   /* keep it subtle */
+        background: rgba(0, 0, 0, 0.05);
+        z-index: 9999;                 /* above everything */
+    }
+    /* filled portion that grows with scroll */
+    #scroll-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #9179eb;           /* same accent as button */
+        transition: width 0.15s ease-out;
+    }
+    /* dark theme versions */
+    body.dark-theme #scroll-progress-container {
+        background: rgba(255, 255, 255, 0.15);
+    }
+    body.dark-theme #scroll-progress-bar {
+        background: #A6FFA3;           /* light green accent you used for icon */
+    }
 </style>
 
-<button class="btn btn-secondary theme-toggle-button" id="theme-toggle">&#9790; </button>
+<!-- scrolling progress bar -->
+<div id="scroll-progress-container">
+    <div id="scroll-progress-bar"></div>
+</div>
 
+<!-- theme switch -->
+<button class="btn btn-secondary theme-toggle-button" id="theme-toggle" aria-label="Switch to Dark Mode">
+    &#9790;
+</button>
+
+<!-- main CV content -->
 <div class="container mt-4" id="cv-content">
     {{ cv_html|safe }}
 </div>
 
 <script>
-    document.getElementById('theme-toggle').addEventListener('click', function() {
+    /* ---------- theme toggle ---------- */
+    document.getElementById('theme-toggle').addEventListener('click', function () {
         document.body.classList.toggle('dark-theme');
-        const button = document.getElementById('theme-toggle');
+        const button = this;
         if (document.body.classList.contains('dark-theme')) {
-            button.innerHTML = '&#9728;&#65038; '; 
+            button.innerHTML = '&#9728;&#65038;';      // sun icon
             button.setAttribute('aria-label', 'Switch to Light Mode');
         } else {
-            button.innerHTML = '&#9790; ';
+            button.innerHTML = '&#9790;';              // moon icon
             button.setAttribute('aria-label', 'Switch to Dark Mode');
         }
+    });
+
+    /* ---------- scroll‑progress bar ---------- */
+    const progressBar = document.getElementById('scroll-progress-bar');
+    window.addEventListener('scroll', () => {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop;
+        const scrollHeight = doc.scrollHeight - doc.clientHeight;
+        const progress = scrollHeight ? (scrollTop / scrollHeight) * 100 : 0;
+        progressBar.style.width = progress + '%';
     });
 </script>
 
