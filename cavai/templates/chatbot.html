@@ -253,7 +253,7 @@
       if (index < message.length) {
         element.innerHTML += message.charAt(index);
         index++;
-        setTimeout(type, 5); // Adjust the delay between letters if needed
+        setTimeout(type, 30); // Adjust the delay between letters if needed
         element.scrollTop = element.scrollHeight; // Auto-scroll
         messagesBox.scrollTop = messagesBox.scrollHeight;
       }
@@ -350,7 +350,7 @@
       });
   });
   window.addEventListener('load', () => {
-  const initialMessage = "In one sentence, summarise Diogo's experience for me.";
+  const initialMessage = "To start things off, read through Diogo's CV in detail and then provide me with a clear, one-sentence summary that captures the essence of his overall experience and background? Thank you!";
   messageInput.value = initialMessage;
   messageForm.dispatchEvent(new Event('submit'));
   typeMessage(messageInput, initialMessage);
