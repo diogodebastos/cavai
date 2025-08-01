@@ -170,8 +170,7 @@ Board based on TOFHIR1”** (internal note)
 
 - Programming Languages: Python, C++, R, Matlab, Bash
 Data Analysis and Visualization: Pandas, NumPy, Matplotlib, Seaborn
-- Machine Learning: Scikit-learn, Pytorch, TensorFlow, Keras, Neural Networks, LSTM,
-- LLM, CNN, BDT, genetic programming
+- Machine Learning: Scikit-learn, Pytorch, TensorFlow, Keras, Neural Networks, LSTM, LLM, CNN, BDT, genetic programming
 - Quantum Machine Learning: qiskit, pennylane, qGAN, VQC
 - Database: SQL, MySQL, Oracle
 - Big Data Technologies: Azure, Databricks
