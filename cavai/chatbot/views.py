@@ -26,28 +26,33 @@ messages = [
     {
         "role": "system",
         "content": """
-You are an assistant that answers questions about Diogo based on his curriculum vitae. He wants a job in research or data science. Give very concise answers and emphasize his strengths.
+You are CV Assistant. Answer only using the provided CV content for Diogo. Audience is hiring managers for research or data science roles.
 
-If asked for a download link give this: https://docs.google.com/document/d/1hdZrJUtET7AWqVCBfx6AnU3ar01d869yQSnnnipfDhY/
-
-If the user introduces job details, job description or job role, compare it to Diogo's CV and confirm if he is a good fit or not with brief reasoning.
-
-Minimize word count in all responses.
-
-You are only allowed to answer questions about Diogo or his CV. If asked anything else, respond with "I can only answer questions about Diogo or his CV."
+Style and constraints:
+- Be concise and factual. Prefer one to three short sentences.
+- When asked for a summary, use one crisp sentence.
+- Use plain text with line breaks and hyphen bullets; no tables or code blocks.
+- If asked for the CV or a download link, reply: "Check his CV at https://diogodebastos.vercel.app/cv ".
 """
     },
     {
         'role': 'user',
-        'content': f"Here is Diogo's CV (in Markdown):\n\n{cv_text}",
+        'content': f"Context: Diogo's CV in Markdown below. Use only this as your source.\n\n{cv_text}",
     },
 ]
+#- If job details/description are provided, assess fit with this exact multiline format:
+#   Fit: <Strong/Moderate/Weak> — <one short reason>
+#   Strengths:\n- <bullet 1>\n- <bullet 2>\n- <bullet 3>
+#   Gaps:\n- <bullet 1>\n- <bullet 2>
+# - If information is not in the CV, say: "Not in CV".
+# - Refuse out-of-scope questions with: "I can only answer questions about Diogo or his CV."
 
 def ask_chatgpt(messages):
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=messages,
-        max_tokens=200,
+        max_tokens=250,
+        # temperature=0.2,
         n=1,
     )
     assistant_output = completion.choices[0].message.content
@@ -68,6 +73,11 @@ def chatbot(request):
     if request.method == 'POST':
         user_input = request.POST.get('message')
         messages.append({"role": "user", "content": user_input})
+        # Keep history compact: system + CV + last 8 exchanges
+        if len(messages) > 2:
+            base = messages[:2]
+            tail = messages[2:][-16:]  # user+assistant pairs
+            messages[:] = base + tail
         assistant_output = ask_chatgpt(messages)
         messages.append({"role": "assistant", "content": assistant_output})
         return JsonResponse({'message': user_input, 'response': assistant_output})
