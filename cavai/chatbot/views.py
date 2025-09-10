@@ -2,10 +2,9 @@ from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 from openai import OpenAI
-import time
-import re
 import os
 import markdown
+from pathlib import Path
 
 # client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
@@ -14,68 +13,45 @@ try:
 except KeyError:
     raise KeyError("Please set the OPENAI_API_KEY environment variable.")
 
-try:
-    os.environ['OPENAI_ASSISTANT_ID']
-except KeyError:
-    raise KeyError("Please set the OPENAI_ASSISTANT_ID environment variable.")
-
 client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
-messages = [{"role": "system", "content": "You are a helpful assistant."}]
 
-# assistant = client.beta.assistants.retrieve(settings.OPENAI_ASSISTANT_ID)
-assistant = client.beta.assistants.retrieve(os.environ.get('OPENAI_ASSISTANT_ID'))
-thread = client.beta.threads.create()
+# Load CV content once for context in chat prompts.
+cv_path = Path(settings.BASE_DIR) / 'templates' / 'cv.md'
+try:
+    cv_text = cv_path.read_text(encoding='utf-8')
+except FileNotFoundError:
+    cv_text = ""
 
-def clean_string(input_string):
-    result = ""
-    inside_parentheses = 0
+messages = [
+    {
+        "role": "system",
+        "content": """
+You are an assistant that answers questions about Diogo based on his curriculum vitae. He wants a job in research or data science. Give very concise answers and emphasize his strengths.
 
-    for char in input_string:
-        if char == '【':
-            inside_parentheses += 1
-        elif char == '】':
-            inside_parentheses -= 1
-        elif inside_parentheses == 0:
-            result += char
+If asked for a download link give this: https://docs.google.com/document/d/1hdZrJUtET7AWqVCBfx6AnU3ar01d869yQSnnnipfDhY/
 
-    return result
+If the user introduces job details, job description or job role, compare it to Diogo's CV and confirm if he is a good fit or not with brief reasoning.
+
+Minimize word count in all responses.
+
+You are only allowed to answer questions about Diogo's CV. If asked anything else, respond with "I can only answer questions about Diogo's CV."
+"""
+    },
+    {
+        'role': 'user',
+        'content': f"Here is Diogo's CV (in Markdown):\n\n{cv_text}",
+    },
+]
 
 def ask_chatgpt(messages):
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=messages,
-    max_tokens=100,
-    n=1,
+        model="gpt-4o-mini",
+        messages=messages,
+        max_tokens=200,
+        n=1,
     )
     assistant_output = completion.choices[0].message.content
     return assistant_output
-
-def ask_assistant(user_input):
-    message = client.beta.threads.messages.create(
-        thread_id=thread.id,
-        role="user",
-        content=user_input
-    )
-    run = client.beta.threads.runs.create(
-    thread_id=thread.id,
-    assistant_id=assistant.id,
-    )
-    while True:
-        run_status = client.beta.threads.runs.retrieve(
-            thread_id=thread.id,
-            run_id=run.id
-        ).status
-
-        if run_status == "completed":
-            break
-
-        time.sleep(1)  
-        
-    messages = client.beta.threads.messages.list(
-    thread_id=thread.id
-    )
-    assistant_output = messages.data[0].content[0].text.value
-    return clean_string(assistant_output)
 
 # def chatbot(request):
 #     global messages
@@ -88,12 +64,13 @@ def ask_assistant(user_input):
 #     return render(request, 'chatbot.html')
 
 def chatbot(request):
+    global messages
     if request.method == 'POST':
         user_input = request.POST.get('message')
-        # comment out the following line for debugging
-        assistant_output = ask_assistant(user_input)
-        # assistant_output = user_input
-        return JsonResponse({'message':user_input, 'response': assistant_output})
+        messages.append({"role": "user", "content": user_input})
+        assistant_output = ask_chatgpt(messages)
+        messages.append({"role": "assistant", "content": assistant_output})
+        return JsonResponse({'message': user_input, 'response': assistant_output})
     return render(request, 'chatbot.html')
 
 def cv_view(request):
