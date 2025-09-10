@@ -164,6 +164,7 @@
       display: flex;
       align-items: center;
       justify-content: left;
+      white-space: pre-line; /* preserve newlines, collapse extra spaces */
     }
     
     .message-content-AI::before {
@@ -183,6 +184,7 @@
       display: flex;
       align-items: center;
       justify-content: left;
+      white-space: pre-line; /* preserve newlines, collapse extra spaces */
     }
     
     .message-content-USER::before {
@@ -220,9 +222,11 @@
             </div>
             <div class="message-content">
               <p><b>example questions:</b></p>
-              <p>Why should I hire Diogo?<br>
-              What was Diogo's PhD about?<br>
-              ⌘c ⌘v your job requirements</p>
+              <p>
+                Paste a job description for a quick fit check.<br>
+                What are Diogo's top strengths?<br>
+                Does he match this role? Why/why not?
+              </p>
             </div>
           </div>
         </li>
@@ -233,7 +237,7 @@
   <form class="message-form">
     {%csrf_token%}
     <div class="input-group">
-      <input type="text" class="form-control message-input" placeholder="Type your message...">
+      <input type="text" class="form-control message-input" placeholder="Ask about Diogo or paste a job description…">
       <div class="input-group-append">
         <button type="submit" class="btn btn-send">Send</button>
       </div>
@@ -253,7 +257,7 @@
       if (index < message.length) {
         element.innerHTML += message.charAt(index);
         index++;
-        setTimeout(type, 15); // Adjust the delay between letters if needed
+        setTimeout(type, 10); // Adjust the delay between letters if needed
         element.scrollTop = element.scrollHeight; // Auto-scroll
         messagesBox.scrollTop = messagesBox.scrollHeight;
       }
@@ -294,11 +298,8 @@
     messageItem.classList.add('message', 'sent');
     messageItem.innerHTML = `
         <div class="message-text">
-            <div class="message-sender">
-                <b></b>
-            </div>
-            <div class="message-content-USER">
-            </div>
+            <div class="message-sender"><b></b></div>
+            <div class="message-content-USER"></div>
         </div>`;
     messagesList.appendChild(messageItem);
     messagesBox.scrollTop = messagesBox.scrollHeight;
@@ -319,18 +320,16 @@
     })
       .then(response => response.json())
       .then(data => {
-        const response = data.response;
+        let response = data.response || '';
+        // Remove any leading whitespace/newlines for cleaner alignment
+        response = response.replace(/^\s+/, '');
         const messageItem = document.createElement('li');
         messageItem.classList.add('message', 'received');
         messageItem.innerHTML = `
         <div class="message-text">
-            <div class="message-sender">
-              <b></b>
-            </div>
-            <div class="message-content-AI">
-            </div>
-        </div>
-          `;
+            <div class="message-sender"><b></b></div>
+            <div class="message-content-AI"></div>
+        </div>`;
         messagesList.appendChild(messageItem);
         messagesBox.scrollTop = messagesBox.scrollHeight;
 
@@ -350,7 +349,7 @@
       });
   });
   window.addEventListener('load', () => {
-  const initialMessage = "To start things off, read through Diogo's CV and provide me with a clear, one-sentence summary that captures the essence of his overall experience and background.";
+  const initialMessage = "Summarize Diogo's CV in one concise sentence.";
   messageInput.value = initialMessage;
   messageForm.dispatchEvent(new Event('submit'));
   typeMessage(messageInput, initialMessage);
