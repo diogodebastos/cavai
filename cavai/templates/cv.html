@@ -64,6 +64,39 @@
         cursor: pointer;
     }
 
+    /* ---------- keep sections together in PDF ---------- */
+    #cv-content {
+        max-width: 8.27in;           /* match A4 width */
+        margin: 0 auto 3rem;
+        line-height: 1.45;
+    }
+    #cv-content h1,
+    #cv-content h2,
+    #cv-content h3,
+    #cv-content h4,
+    #cv-content h5,
+    #cv-content h6 {
+        break-after: avoid-page;
+        break-inside: avoid;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+    #cv-content p,
+    #cv-content ul,
+    #cv-content ol,
+    #cv-content li,
+    #cv-content blockquote {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    #cv-content ul,
+    #cv-content ol {
+        padding-left: 1.2rem;
+    }
+    #cv-content li + li {
+        margin-top: 0.3rem;
+    }
+
     /* ---------- scroll‑progress bar ---------- */
     /* thin, subtle track */
     #scroll-progress-container {
@@ -148,7 +181,11 @@
             filename:     'diogo_de_bastos_cv.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+            pagebreak:    {
+                mode: ['css', 'avoid-all'],
+                avoid: '#cv-content h1, #cv-content h2, #cv-content h3, #cv-content h4, #cv-content h5, #cv-content h6, #cv-content p, #cv-content ul, #cv-content ol, #cv-content li, #cv-content blockquote'
+            }
         };
         html2pdf().set(opt).from(element).save();
     });
