@@ -1,6 +1,7 @@
 # Diogo de Bastos 👋
 
 Lisbon, Portugal | diogodebastos18@gmail.com | [LinkedIn](https://www.linkedin.com/in/diogodebastos) | [GitHub](https://github.com/diogodebastos) | [Google Scholar](https://scholar.google.com/citations?user=6f2lV5YAAAAJ&hl=en)
+
 👉 [try talking with my CV](https://diogodebastos.vercel.app/)
 
 ## Summary 📜 

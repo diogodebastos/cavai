@@ -16,17 +16,6 @@
         color: #FFF7F6;
     }
 
-    /* ---------- header action buttons ---------- */
-    .action-buttons {
-        display: flex;
-        justify-content: center; /* center the buttons */
-        gap: 6px;                 /* slightly tighter gap */
-        align-items: center;
-        padding: 6px 10px 4px;    /* less vertical padding */
-        width: 100%;
-        box-sizing: border-box;
-    }
-
     /* tighten heading top margin so name sits closer to buttons */
     #cv-content h1:first-child,
     #cv-content h2:first-child {
@@ -70,15 +59,36 @@
         gap: 2rem;
         align-items: flex-start;
         max-width: 11.5in;
-        margin: 0 auto 3rem;
+        margin: 1.25rem auto 3rem;
         padding: 0 1.5rem;
         box-sizing: border-box;
     }
-    .cv-toc {
-        flex: 0 0 220px;
+    .cv-sidebar {
+        flex: 0 0 240px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        align-self: flex-start;
         position: sticky;
         top: 80px;
-        align-self: flex-start;
+    }
+    .cv-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: rgba(145, 121, 235, 0.08);
+        border: 1px solid rgba(145, 121, 235, 0.2);
+        border-radius: 8px;
+    }
+    .cv-actions .download-pdf-button {
+        flex: 1 1 auto;
+        width: auto;
+    }
+    .cv-actions .theme-toggle-button {
+        width: 40px;
+    }
+    .cv-toc {
         padding: 1rem;
         background: rgba(145, 121, 235, 0.08);
         border: 1px solid rgba(145, 121, 235, 0.2);
@@ -114,7 +124,6 @@
         padding-left: 1.5rem;
         font-size: 0.92rem;
     }
-    .cv-section,
     .cv-subsection {
         margin-bottom: 1.5rem;
         break-inside: avoid;
@@ -159,8 +168,16 @@
             gap: 1.5rem;
             padding: 0 1rem;
         }
-        .cv-toc {
+        .cv-sidebar {
             position: static;
+            width: 100%;
+        }
+        .cv-actions {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 0.5rem;
+        }
+        .cv-toc {
             width: 100%;
         }
         #cv-content {
@@ -174,6 +191,7 @@
             margin: 0 auto;
             padding: 0;
         }
+        .cv-sidebar,
         .cv-toc {
             display: none !important;
         }
@@ -216,24 +234,22 @@
     <div id="scroll-progress-bar"></div>
 </div>
 
-<div class="action-buttons">
-    <!-- download pdf -->
-    <button class="btn btn-secondary download-pdf-button" id="download-pdf">
-        Download CV
-    </button>
-
-    <!-- theme switch -->
-    <button class="btn btn-secondary theme-toggle-button" id="theme-toggle" aria-label="Switch to Dark Mode">
-        &#9790;
-    </button>
-</div>
-
 <!-- main CV content -->
 <div class="cv-layout" id="cv-layout">
-    <nav class="cv-toc" id="cv-toc" aria-label="Table of contents" data-html2canvas-ignore="true">
-        <h2>Contents</h2>
-        <ul class="toc-list"></ul>
-    </nav>
+    <aside class="cv-sidebar" data-html2canvas-ignore="true">
+        <div class="cv-actions">
+            <button class="btn btn-secondary download-pdf-button" id="download-pdf">
+                Download CV
+            </button>
+            <button class="btn btn-secondary theme-toggle-button" id="theme-toggle" aria-label="Switch to Dark Mode">
+                &#9790;
+            </button>
+        </div>
+        <nav class="cv-toc" id="cv-toc" aria-label="Table of contents">
+            <h2>Contents</h2>
+            <ul class="toc-list"></ul>
+        </nav>
+    </aside>
     <div class="container mt-2 cv-main" id="cv-content">
         {{ cv_html|safe }}
     </div>
@@ -288,7 +304,6 @@
             });
         };
         wrapSections('h3', ['H2', 'H3'], 'cv-subsection');
-        wrapSections('h2', ['H1', 'H2'], 'cv-section');
     }
 
     /* ---------- build table of contents ---------- */
@@ -353,7 +368,7 @@
             jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
             pagebreak:    {
                 mode: ['css', 'legacy'],
-                avoid: '#cv-content h1, #cv-content h2, #cv-content h3, #cv-content h4, #cv-content h5, #cv-content h6, #cv-content p, #cv-content ul, #cv-content ol, #cv-content li, #cv-content blockquote, .cv-section, .cv-subsection'
+                avoid: '#cv-content h1, #cv-content h2, #cv-content h3, #cv-content h4, #cv-content h5, #cv-content h6, #cv-content p, #cv-content ul, #cv-content ol, #cv-content li, #cv-content blockquote, .cv-subsection'
             }
         };
         html2pdf().set(opt).from(element).save();
