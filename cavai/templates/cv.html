@@ -114,6 +114,12 @@
         padding-left: 1.5rem;
         font-size: 0.92rem;
     }
+    .cv-section,
+    .cv-subsection {
+        margin-bottom: 1.5rem;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
     #cv-content {
         max-width: 8.27in;           /* match A4 width */
         width: 100%;
@@ -258,8 +264,34 @@
         progressBar.style.width = progress + '%';
     });
 
-    /* ---------- build table of contents ---------- */
     const cvContent = document.getElementById('cv-content');
+
+    /* ---------- enforce section grouping for PDF ---------- */
+    if (cvContent) {
+        const wrapSections = (selector, stopTags, className) => {
+            const headings = Array.from(cvContent.querySelectorAll(selector));
+            headings.forEach((heading) => {
+                if (heading.closest(`.${className}`)) {
+                    return;
+                }
+                const wrapper = document.createElement('div');
+                wrapper.classList.add(className);
+                const parent = heading.parentNode;
+                parent.insertBefore(wrapper, heading);
+                wrapper.appendChild(heading);
+                let next = wrapper.nextElementSibling;
+                while (next && !stopTags.includes(next.tagName)) {
+                    const toMove = next;
+                    next = toMove.nextElementSibling;
+                    wrapper.appendChild(toMove);
+                }
+            });
+        };
+        wrapSections('h3', ['H2', 'H3'], 'cv-subsection');
+        wrapSections('h2', ['H1', 'H2'], 'cv-section');
+    }
+
+    /* ---------- build table of contents ---------- */
     const tocNav = document.getElementById('cv-toc');
     const tocList = tocNav ? tocNav.querySelector('.toc-list') : null;
     if (cvContent && tocList) {
@@ -321,7 +353,7 @@
             jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
             pagebreak:    {
                 mode: ['css', 'legacy'],
-                avoid: '#cv-content h1, #cv-content h2, #cv-content h3, #cv-content h4, #cv-content h5, #cv-content h6, #cv-content p, #cv-content ul, #cv-content ol, #cv-content li, #cv-content blockquote'
+                avoid: '#cv-content h1, #cv-content h2, #cv-content h3, #cv-content h4, #cv-content h5, #cv-content h6, #cv-content p, #cv-content ul, #cv-content ol, #cv-content li, #cv-content blockquote, .cv-section, .cv-subsection'
             }
         };
         html2pdf().set(opt).from(element).save();
