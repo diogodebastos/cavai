@@ -64,11 +64,62 @@
         cursor: pointer;
     }
 
-    /* ---------- keep sections together in PDF ---------- */
+    /* ---------- layout + keep sections together in PDF ---------- */
+    .cv-layout {
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+        max-width: 11.5in;
+        margin: 0 auto 3rem;
+        padding: 0 1.5rem;
+        box-sizing: border-box;
+    }
+    .cv-toc {
+        flex: 0 0 220px;
+        position: sticky;
+        top: 80px;
+        align-self: flex-start;
+        padding: 1rem;
+        background: rgba(145, 121, 235, 0.08);
+        border: 1px solid rgba(145, 121, 235, 0.2);
+        border-radius: 8px;
+    }
+    .cv-toc h2 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+    .cv-toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .cv-toc li {
+        margin-bottom: 0.35rem;
+        line-height: 1.3;
+    }
+    .cv-toc a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .cv-toc a:hover,
+    .cv-toc a:focus {
+        text-decoration: underline;
+    }
+    .cv-toc .toc-level-h2 {
+        padding-left: 0.75rem;
+    }
+    .cv-toc .toc-level-h3 {
+        padding-left: 1.5rem;
+        font-size: 0.92rem;
+    }
     #cv-content {
         max-width: 8.27in;           /* match A4 width */
-        margin: 0 auto 3rem;
+        width: 100%;
+        margin: 0 auto;
         line-height: 1.45;
+        box-sizing: border-box;
     }
     #cv-content h1,
     #cv-content h2,
@@ -95,6 +146,34 @@
     }
     #cv-content li + li {
         margin-top: 0.3rem;
+    }
+    @media (max-width: 992px) {
+        .cv-layout {
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+        .cv-toc {
+            position: static;
+            width: 100%;
+        }
+        #cv-content {
+            margin: 0;
+        }
+    }
+    @media print {
+        .cv-layout {
+            display: block;
+            max-width: 8.27in;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .cv-toc {
+            display: none !important;
+        }
+        .cv-main {
+            padding: 0;
+        }
     }
 
     /* ---------- scroll‑progress bar ---------- */
@@ -144,8 +223,14 @@
 </div>
 
 <!-- main CV content -->
-<div class="container mt-2" id="cv-content">
-    {{ cv_html|safe }}
+<div class="cv-layout" id="cv-layout">
+    <nav class="cv-toc" id="cv-toc" aria-label="Table of contents" data-html2canvas-ignore="true">
+        <h2>Contents</h2>
+        <ul class="toc-list"></ul>
+    </nav>
+    <div class="container mt-2 cv-main" id="cv-content">
+        {{ cv_html|safe }}
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -173,6 +258,58 @@
         progressBar.style.width = progress + '%';
     });
 
+    /* ---------- build table of contents ---------- */
+    const cvContent = document.getElementById('cv-content');
+    const tocNav = document.getElementById('cv-toc');
+    const tocList = tocNav ? tocNav.querySelector('.toc-list') : null;
+    if (cvContent && tocList) {
+        const headings = cvContent.querySelectorAll('h1, h2, h3');
+        const slugCounts = {};
+        headings.forEach((heading, index) => {
+            const text = heading.textContent.trim();
+            if (!text) {
+                return;
+            }
+            const level = heading.tagName.toLowerCase();
+            let slug = text
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+            if (!slug) {
+                slug = `section-${index + 1}`;
+            }
+            if (slugCounts[slug]) {
+                slugCounts[slug] += 1;
+                slug = `${slug}-${slugCounts[slug]}`;
+            } else {
+                slugCounts[slug] = 1;
+            }
+            heading.id = slug;
+            const item = document.createElement('li');
+            item.classList.add(`toc-level-${level}`);
+            const link = document.createElement('a');
+            link.href = `#${slug}`;
+            link.textContent = text;
+            item.appendChild(link);
+            tocList.appendChild(item);
+        });
+        if (!tocList.children.length) {
+            tocNav.style.display = 'none';
+        } else {
+            tocNav.addEventListener('click', (event) => {
+                if (event.target instanceof HTMLAnchorElement) {
+                    event.preventDefault();
+                    const targetId = event.target.getAttribute('href').slice(1);
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        }
+    }
+
     /* ---------- download cv as pdf ---------- */
     document.getElementById('download-pdf').addEventListener('click', () => {
         const element = document.getElementById('cv-content');
@@ -183,7 +320,7 @@
             html2canvas:  { scale: 2 },
             jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
             pagebreak:    {
-                mode: ['css', 'avoid-all'],
+                mode: ['css', 'legacy'],
                 avoid: '#cv-content h1, #cv-content h2, #cv-content h3, #cv-content h4, #cv-content h5, #cv-content h6, #cv-content p, #cv-content ul, #cv-content ol, #cv-content li, #cv-content blockquote'
             }
         };

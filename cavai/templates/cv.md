@@ -1,186 +1,82 @@
-# 👋 I’m Diogo de Bastos
+# Diogo de Bastos 👋
 
 Lisbon, Portugal | diogodebastos18@gmail.com | [LinkedIn](https://www.linkedin.com/in/diogodebastos) | [GitHub](https://github.com/diogodebastos) | [Google Scholar](https://scholar.google.com/citations?user=6f2lV5YAAAAJ&hl=en)
 👉 [try talking with my CV](https://diogodebastos.vercel.app/)
 
-## 📜 Summary
-Hello world! I'm Diogo, a Ph.D. physicist and currently a senior data scientist at EDP. My
-passion for physics, data, and AI drives my work with Python, C++
-, machine learning,
-quantum computing, and hardware development. I thrive on solving complex challenges and
-continually learning from my peers. In addition to technical expertise, I value leadership and
-mentorship, believing that sharing knowledge fosters innovation and growth.
+## Summary 📜 
+Senior data scientist (5+ years) with a Ph.D. in Physics and a track record of deploying machine learning solutions that operate on large-scale, high-velocity data. I pair rigorous statistical modelling with production engineering, working closely with product, engineering, and risk stakeholders to deliver resilient analytics. Recent focus spans time-series forecasting, optimisation, and LLM-enabled automation, with experience maintaining distributed compute environments within global collaborations.
 
-## 💻 Professional experience
-### [EDP](http://www.edp.com) | Senior data scientist & quantitative analyst
-2022/09 - current
+## Work experience 💻 
+### [EDP](http://www.edp.com)
+Lisbon, 2022/09 - current | Senior data scientist, AI/ML & quantitative analyst
 
-**Price Prediction:** Improved short-term price forecasting by reducing error margins from
-15% to 5% using advanced ML techniques - LSTM for time-series predictions and CNN for
-noise reduction. Implemented solutions in Python with PyTorch and managed data via SQL
-(Oracle/MySQL). Currently working with TFT (Temporal Fusion Transformer) models.
+- Reduced short-term price forecast error from 15% to 5% by combining LSTM, CNN, and Temporal Fusion Transformer models implemented in Python with PyTorch and SQL-backed data pipelines.
+- Designed portfolio optimisation and algorithmic trading frameworks that improved gross margin by 30%, integrating ML outputs into decision workflows for trading and risk teams.
+- Migrated analytics from MATLAB and R to a Python ecosystem, formalising code efficiency, scalability, and reproducibility for globally distributed stakeholders.
+- Deployed predictive services and analytical applications on Databricks Services to meet availability, monitoring, and scalability requirements.
+- Built LLM-powered assistants using Azure OpenAI, Llama2, Retrieval Augmented Generation, Weaviate, and LangChain to automate report generation and data interpretation. PoCs for report automation and research summarisation. Cut manual review time by >40%.
+- Mentored colleagues on MLOps practices, supervised a master’s thesis on deep learning for price forecasting, and acted as product lead for ML, optimisation, and trading initiatives.
 
-**Portfolio Optimization:** Enhanced EDP’s gross margin by 30% through energy
-commodities portfolio optimization using quadratic programming in Python with the
-Gurobi optimizer.
+### [Whitesmith](https://www.whitesmith.co/)
+Coimbra, 2016/01 - 2017/06 | Business and hardware development
 
-**Algorithmic Trading:** Developed an algorithmic trading framework and proprietary
-strategies for energy assets, boosting profits.
+- Co-founded a cold-chain IoT startup, managing product strategy, client acquisition, and data-driven validation of market needs.
+- Built sensor-to-cloud monitoring across 24 devices, integrating wireless communications (2.1 GHz/433 MHz), embedded prototyping (Arduino, Raspberry Pi), and analytics (SQLite, MATLAB).
+- Designed low-power PCBs with Altium and coordinated with engineers and customers to deliver reliable hardware deployments.
 
-**Workflow Transition:** Migrated computational workflows from MATLAB and R to Python,
-increasing code eﬃciency, scalability, and team productivity.
+### [jeKnowledge](https://jeknowledge.pt/)
+Coimbra, 2014/09 - 2016/02 | CEO
 
-**Cloud Deployment:** Deployed predictive models and analytical tools on Azure Cloud
-Services, ensuring high availability and scalability.
+- Expanded the non-profit tech organisation from 10 to 30 members by redesigning recruitment and leadership development.
+- Directed rebranding, launched a summer academy focused on programming and hardware, and created networking events linking academia with startups.
+- Oversaw hackathons and community programs, honing stakeholder communication and execution under tight timelines.
 
-**LLM Integration:** Pioneered LLM-based applications to streamline report generation,
-summarization, and data interpretation by leveraging Azure OpenAI’s API, Llama2,
-Retrieval Augmented Generation, Weaviate, and LangChain.
+## Research 🔬 
 
-**GenAI:** Launched a proof-of-concept translation app using OpenAI’s API with integrated
-speech-to-text, translation, and text-to-speech to improve global communication, despite
-challenges with latency and Latin-based language accuracy.
+### Ph.D.
+2018/01 - 2023/07 | High Energy Physics and Quantum Machine Learning
 
-**Team Leadership:** Mentored colleagues and promoted MLOps best practices, ensuring
-robust ML pipelines, while guiding the team through complex projects to drive innovation
-and excellence.
+- Advanced supersymmetry searches within the CMS experiment by building C++ frameworks, boosted decision trees (ROOT TMVA), and TensorFlow neural networks to classify proton-proton collision data.
+- Performed Bayesian statistical analyses to set stringent limits on top squark pair production cross sections at low masses, managing class imbalance and detector noise.
+- Experimented with Variational Quantum Classifiers and Quantum GANs (Python, PennyLane, Qiskit) to accelerate Monte Carlo data augmentation.
+- Tested and calibrated ASICs for the CMS Timing Detector upgrade and maintained computing operations for the CMS collaboration, ensuring data integrity across distributed resources.
+- Mentored junior researchers and organised outreach events to promote STEM education.
 
-**Product leader:** for ML applications, portfolio optimization and AI-driven trading.
+## Education 🎓 
 
-**Thesis supervision:** Supervisioning a thesis on deep learning for price forecasting.
+- Doctorate of Philosophy in Physics, Instituto Superior Técnico Universidade de Lisboa - Thesis: "Search for top squarks in the four-body decay mode with single lepton final states in proton-proton collisions at the Large Hadron Collider (Pass with Distinction)
+- Master’s in Physics Engineering, University of Coimbra - Thesis: “Automated monitoring and diagnosis of cold chains” (18/20)
 
-### [Whitesmith](https://www.whitesmith.co/) | Business and hardware development
-2016/01 - 2017/06
-
-**Startup Launch:** Co-founded a startup with 4 entrepreneurs.
-
-**Product Strategy:** Managed market segmentation, validation, pricing, and client
-acquisition.
-
-**IoT Development:** Created an IoT solution for cold chain monitoring across 24 devices.
-
-**PCB Design:** Designed a low-power embedded system PCB using Altium.
-
-**Prototyping:** Developed prototypes with Arduino and Raspberry Pi on GNU/Linux.
-
-**Wireless Integration:** Sensor-to-gateway communication via 2.1 GHz and 433 MHz.
-
-**Data Analytics:** Stored sensor data in the cloud (SQLite) and analyzed it with MATLAB.
-
-**Testing Initiation:** Launched the testing phase for the sensor network.
-
-### [jeKnowledge](https://jeknowledge.pt/) | CEO
-2014/09 - 2016/02
-
-**Organizational Growth:** Led the non-profit, growing membership from 10 to 30.
-
-**Recruitment Process:** Redesigned the recruitment procedure.
-
-**Rebranding:** Managed the complete rebranding.
-
-**Educational Initiative:** Launched a summer academy for high-school students to explore
-programming, web development, and hardware.
-
-**Networking Event:** Initiated .works to connect the college community with national tech
-startups.
-
-**Hackathon Oversight:** Oversaw ShiftAPPens, a hackathon for college students.
-
-## 🔬 Research
-
-### Ph.D. | High Energy Physics and Quantum Machine Learning
-2018/01 - 2023/07
-
-**Advanced Research:** Pushed the state-of-the-art of high energy physics by measuring the
-most stringent limits for top squark pair production cross section at low masses. This was
-accomplished by analyzing the proton-proton collision at the Large Hadron Collider
-detected by the Compact Muon Solenoid at CERN. I built the code framework using C++
-due to the size of the samples and boosted decision trees (ROOT TMVA) and neural
-networks (Tensorflow) as a machine learning method to classify simulated data. Python
-and batch scripting were also used. A statistical analysis is performed in the end using
-Bayesian statistics to test the hypothesis of supersymmetry and dark matter in the context
-of the four-body decay of the top squark.
-
-**Monte Carlo Enhancement:** Improved Standard Model simulations by analyzing
-lepton-neutrino kinematics from W boson decays.
-
-**Detector Algorithm:** Developed an algorithm to estimate fake leptons due to detector
-ineﬃciencies.
-
-**Quantum Classification:** Applied Variational Quantum Classifiers with Python and
-PennyLane, matching classical methods in supersymmetry searches.
-
-**Quantum GANs:** Reduced Monte Carlo data augmentation time from months to days using
-Quantum Generative Adversarial Networks with qubit encoding.
-
-**Quantum Circuit Design:** Utilized genetic algorithms in Python and Qiskit to build
-quantum circuits.
-
-**CMS Collaboration:** Contributed to open-source code within the CMS collaboration (4000+
-members).
-
-**ASIC Calibration:** Tested and calibrated ASICs for the CMS Timing Detector upgrade
-targeting a 30–40 ps resolution.
-
-**Operations Management:** Managed computer operations for the Portuguese CMS site.
-
-**System Debugging:** Debugged systems at the Laboratório de Instrumentação e Física
-Experimental de Partículas FARM using Slurm.
-
-**Mentorship:** Developed and mentored a summer internship program utilizing high-energy
-physics data and machine learning.
-
-**Outreach & Representation:** Organized outreach events for students, created a lab
-student council, and represented CMS-Portugal at the European Committee for Future
-Accelerators Early-Career Researchers Panel.
-
-## 🎓 Education
-
-### Doctorate of Philosophy in Physics at Instituto Superior Técnico
-2018/01 - 2023/07
-
-Ph.D. in Physics at Instituto Superior Técnico hosted by [Laboratório de Instrumentação e
-Física Experimental de Partículas](https://www.lip.pt/), in collaboration with the [Compact Muon Solenoid](https://home.cern/science/experiments/cms)
-collaboration, CERN: **“Search for top squarks in the four-body decay mode with single
-lepton final states in proton-proton collisions at the Large Hadron Collider”** (Mark: Pass with Distinction) supervised
-by Dr. Pedrame Bargassa and Prof. João Varela
-
-### Masters in Physics Engineering at University of Coimbra
-2011/09 - 2016/07
-
-Thesis: “Automated monitoring and diagnosis of cold chains” (Mark: 18/20), supervised
-by Prof. Francisco Cardoso and Whitesmith.co CEO Rafael Jegundo
-
-## 📚 Publications
+## Publications 📚
 
 - 2023/06/12 - The CMS Collaboration,
-**“Search for top squarks in the four-body
-decay mode with single lepton final states in proton-proton collisions at the Large Hadron Collider”** [JHEP06(2023)060](https://doi.org/10.1007/JHEP06(2023)060)
+“Search for top squarks in the four-body
+decay mode with single lepton final states in proton-proton collisions at the Large Hadron Collider” [JHEP06(2023)060](https://doi.org/10.1007/JHEP06(2023)060)
 
 - Bastos, D.
-**“Using Variational Quantum Algorithms and Quantum
-Generative Adversarial Networks for Supersymmetry in High‑Energy Physics”**
+“Using Variational Quantum Algorithms and Quantum
+Generative Adversarial Networks for Supersymmetry in High‑Energy Physics”
 (internal paper)
 
 - The CMS Collaboration,
-**“Experimental characterization of the BTL Front-end
-Board based on TOFHIR1”** (internal note)
+“Experimental characterization of the BTL Front-end
+Board based on TOFHIR1” (internal note)
 
-## 💫 Skills
+- Speaker: “Predicting Spain power price with Deep Learning,” 11th Annual Electricity Price Forecasting and Modelling Forum, 2024.
 
-- Programming Languages: Python, C++, R, Matlab, Bash
-Data Analysis and Visualization: Pandas, NumPy, Matplotlib, Seaborn
-- Machine Learning: Scikit-learn, Pytorch, TensorFlow, Keras, Neural Networks, LSTM, LLM, CNN, BDT, genetic programming
-- Quantum Machine Learning: qiskit, pennylane, qGAN, VQC
-- Database: SQL, MySQL, Oracle
-- Big Data Technologies: Azure, Databricks
-- Statistical Analysis: Quadratic programming, risk control
-- Communication: Fluent in Portuguese and English, experience in science outreach
-- Leadership: Experience as CEO, project coordination, product owner, mentorship
-- Hardware & IoT: Arduino, Raspberry Pi, wireless communication, PCB design
-- Distributed Computing: Computer operations for CMS collaboration, Azure Cloud
+- Speaker: “Searches for top squarks in compressed scenarios with the CMS experiment,” SUSY Conference, 2022.
 
-## 🗣 Conferences and presentations
+## Skills 💫 
+
+- Programming: Python, C++, R, MATLAB, Bash
+- Data Analysis & Visualisation: Pandas, NumPy, Matplotlib, Seaborn
+- Machine Learning: PyTorch, TensorFlow, scikit-learn, Keras, neural networks, LSTM, TFT, CNN, BDT, genetic programming
+- NLP & GenAI: Azure OpenAI, Llama2, LangChain, Retrieval Augmented Generation, speech-to-text, translation, text-to-speech
+- Databases & Platforms: SQL, MySQL, Oracle, Azure, Databricks
+- Statistical & Optimisation Techniques: Quadratic programming, risk control, Bayesian analysis
+- Leadership & Communication: Portuguese and English fluency, mentorship, outreach, conference speaking
+
+## Conferences 🗣 
 
 - 2024/09/13 - Speaker: “Predicting Spain power price with Deep Learning”, 11th Annual Electricity Price Forecasting And Modelling Forum
 - 2022/06/29 - Speaker on behalf of the CMS collaboration: “Searches for top squarks in compressed scenarios with the CMS experiment”, The XXIX International Conference on Supersymmetry and Unification of Fundamental Interactions, Ioannina, Greece
