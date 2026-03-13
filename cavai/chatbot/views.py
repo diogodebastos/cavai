@@ -95,3 +95,30 @@ def cv_view(request):
 
 def vibe_coding_view(request):
     return render(request, 'vibe_coding.html')
+
+def blog_list_view(request):
+    blog_dir = Path(settings.BASE_DIR) / 'templates' / 'blog'
+    posts = []
+    if blog_dir.is_dir():
+        for md_file in sorted(blog_dir.glob('blogpost_*.md'), reverse=True):
+            title = md_file.stem  # fallback
+            with open(md_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith('# '):
+                        title = line[2:]
+                        break
+            slug = md_file.stem.replace('_', '-')
+            posts.append({'title': title, 'slug': slug})
+    return render(request, 'blog_list.html', {'posts': posts})
+
+def blog_detail_view(request, slug):
+    filename = slug.replace('-', '_') + '.md'
+    md_path = Path(settings.BASE_DIR) / 'templates' / 'blog' / filename
+    try:
+        with open(md_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        blog_html = markdown.markdown(content)
+    except FileNotFoundError:
+        blog_html = '<p>Blog post not found.</p>'
+    return render(request, 'blog_detail.html', {'blog_html': blog_html})
